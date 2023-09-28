@@ -1,3 +1,4 @@
+required_relative 'nameable'
 class person
 
     def initialize(age, name = 'Unknown', parent_permission: true)
@@ -14,6 +15,10 @@ class person
         of_age?|| @parent_permission ==true
     end
 
+    def correct_name
+        @name
+    end
+    
     private 
     def of_age?
         @age >=18
