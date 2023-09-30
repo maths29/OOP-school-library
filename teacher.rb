@@ -6,7 +6,7 @@ class Teacher < Person
     @specialization = specialization
   end
 
-  att_reader :specialization
+  attr_reader :specialization
 
   def can_use_services?
     true

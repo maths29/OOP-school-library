@@ -1,10 +1,10 @@
-require_relative 'school/classroom'
-require_relative 'school/person'
-require_relative 'school/student'
-require_relative 'school/teacher'
-require_relative 'school/book'
-require_relative 'school/capitalize_decorator'
-require_relative 'school/trimmer_decorator'
+require_relative 'classroom'
+require_relative 'person'
+require_relative 'student'
+require_relative 'teacher'
+require_relative 'book'
+require_relative 'capitalize'
+require_relative 'trimcase'
 
 class App
   def initialize
