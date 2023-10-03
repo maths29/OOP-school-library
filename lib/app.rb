@@ -6,6 +6,7 @@ require_relative 'book'
 require_relative 'capitalize'
 require_relative 'trimcase'
 require_relative 'rental'
+require 'json'
 
 class App
   def initialize
@@ -64,11 +65,19 @@ class App
 
   def add_book
     print 'Title: '
-    title = gets.chomp.strip
-    print 'Author: '
-    author = gets.chomp.strip
-    @books << Book.new(title, author)
-    puts 'Book created successfully'
+  title = gets.chomp.strip
+  print 'Author: '
+  author = gets.chomp.strip
+  @books << Book.new(title, author)
+
+  # Serialize @books array to JSON
+  serialized_books = @books.map { |book| { title: book.title, author: book.author } }
+
+  File.open('./lib/books.json', 'w') do |file|
+    file.write(JSON.pretty_generate(serialized_books))
+  end
+
+  puts 'Book created successfully'
   end
 
   def person_index_val
