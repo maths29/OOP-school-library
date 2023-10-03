@@ -83,6 +83,12 @@ To run the project, execute the following command:
 
 ## 👥 Authors <a name="authors"></a>
 
+👤 **Robert Kanyoro**
+
+- GitHub: [@Kanyorok](https://github.com/Kanyorok)
+- Twitter: [@CarlosMbugua](https://twitter.com/CarlosMbugua)
+- LinkedIn: [Robert Mbugua](https://www.linkedin.com/in/robert-mbugua-kanyoro/)
+
 👤 **iwu John chinonso**
 
 - GitHub: [@githubhandle](https://github.com/maths29)
