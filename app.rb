@@ -117,7 +117,6 @@ class App
     book_index = accept_book_index
     person_index = person_index_val
 
-
     print 'Date: '
     date = gets.chomp
     Rental.new(date, @person[person_index], @books[book_index])
