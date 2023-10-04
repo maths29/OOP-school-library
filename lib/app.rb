@@ -10,7 +10,7 @@ require 'json'
 
 class App
   def initialize
-    @books = []
+    load_books
     @person = []
     @rentals = []
   end
@@ -35,6 +35,17 @@ class App
   def list_books
     @books.each_with_index do |book, index|
       puts "#{index} Title : #{book.title}, Author : #{book.author}"
+    end
+  end
+
+  def load_books
+    @books = []
+
+    if File.file?('./lib/books.json')
+      book_data = JSON.parse(File.read('./lib/books.json'))
+      book_data.each do |book_info|
+        @books << Book.new(book_info['title'], book_info['author'])
+      end
     end
   end
 
@@ -65,19 +76,23 @@ class App
 
   def add_book
     print 'Title: '
-  title = gets.chomp.strip
-  print 'Author: '
-  author = gets.chomp.strip
-  @books << Book.new(title, author)
+    title = gets.chomp.strip
+    print 'Author: '
+    author = gets.chomp.strip
+    new_book = Book.new(title, author)
+    @books << new_book
+    # Read existing data from the file if it exists
+    existing_books = []
 
-  # Serialize @books array to JSON
-  serialized_books = @books.map { |book| { title: book.title, author: book.author } }
+    existing_books = JSON.parse(File.read('./lib/books.json')) if File.file?('./lib/books.json')
 
-  File.open('./lib/books.json', 'w') do |file|
-    file.write(JSON.pretty_generate(serialized_books))
-  end
+    # Append the new book data to the existing data
+    existing_books << { title: new_book.title, author: new_book.author }
 
-  puts 'Book created successfully'
+    # Write the combined data back to the file
+    File.write('./lib/books.json', JSON.pretty_generate(existing_books))
+
+    puts 'Book created successfully'
   end
 
   def person_index_val
@@ -112,7 +127,28 @@ class App
 
     print 'Date: '
     date = gets.chomp
-    Rental.new(date, @person[person_index], @books[book_index])
+    rental = Rental.new(date, @person[person_index], @books[book_index])
+    
+    # Read existing data from the file if it exists
+    existing_rentals = []
+
+    if File.file?('./lib/rentals.json')
+      existing_rentals = JSON.parse(File.read('./lib/rentals.json'))
+    end
+  
+    # Append the new rental data to the existing data
+    existing_rentals << {
+      date: rental.date,
+      person_id: rental.person.id,
+      book_title: rental.book.title,
+      book_author: rental.book.author
+    }
+  
+    # Write the combined data back to the file
+    File.open('./lib/rentals.json', 'w') do |file|
+      file.write(JSON.pretty_generate(existing_rentals))
+    end
+
     puts 'Rental created successfully'
   end
 
