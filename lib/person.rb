@@ -6,11 +6,12 @@ require_relative 'rental'
 class Person < Nameable
   # constructor method
   attr_reader :id, :rentals
-  attr_accessor :name, :age
+  attr_accessor :name, :age, :user_type
 
-  def initialize(age, name = 'unknown', parent_permission: true)
+  def initialize(age, name, user_type, parent_permission: true)
     @name = name
     @age = age
+    @user_type = user_type
     @id = Random.rand(1..1000)
     @parent_permission = parent_permission
     @rentals = []
@@ -30,6 +31,10 @@ class Person < Nameable
     @age
   end
 
+  def gettype
+    @user_type
+  end
+
   # setter methods
   def setname=(val)
     @name = val
@@ -37,6 +42,10 @@ class Person < Nameable
 
   def setage=(val)
     @age = val
+  end
+
+  def settype=(val)
+    @user_type
   end
 
   def can_use_services?

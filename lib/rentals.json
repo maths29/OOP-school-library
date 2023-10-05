@@ -4,5 +4,29 @@
     "person_id": 216,
     "book_title": "The Trap",
     "book_author": "Jane"
+  },
+  {
+    "date": "2023",
+    "person_id": 128,
+    "book_title": "The Trap",
+    "book_author": "Jane"
+  },
+  {
+    "date": "2023",
+    "person_id": 216,
+    "book_title": "The Trap",
+    "book_author": "Jane"
+  },
+  {
+    "date": "2023",
+    "person_id": 216,
+    "book_title": "The Trap",
+    "book_author": "Jane"
+  },
+  {
+    "date": "2023",
+    "person_id": 796,
+    "book_title": "Pointer",
+    "book_author": "George"
   }
 ]

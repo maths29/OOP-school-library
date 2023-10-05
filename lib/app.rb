@@ -11,7 +11,8 @@ require 'json'
 class App
   def initialize
     load_books
-    @person = []
+    load_persons
+    @people = []
     @rentals = []
   end
 
@@ -49,9 +50,20 @@ class App
     end
   end
 
+  def load_persons
+    @person = []
+
+    if File.file?('./lib/persons.json')
+      person_data = JSON.parse(File.read('./lib/persons.json'))
+      person_data.each do |person_info|
+        @person << Person.new(person_info['age'], person_info['name'], person_info['user_type'])
+      end
+    end
+  end
+
   def list_person
     @person.each_with_index do |person, index|
-      puts "#{index} [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      puts "#{index} [#{person.user_type}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
   end
 
@@ -62,15 +74,35 @@ class App
     age = gets.chomp.strip.to_i
     print 'Name: '
     name = gets.chomp.strip
+    existing_persons = []
     if user_type == 1
       print 'Has parent permission? [Y/N]: '
       parent_permission = gets.chomp.strip.upcase == 'Y'
-      @person << Students.new(name, age, parent_permission)
+      student = Student.new(name, age, user_type, parent_permission)
+      existing_persons = JSON.parse(File.read('./lib/persons.json')) if File.file?('./lib/persons.json')
+      existing_persons << {
+        id: student.id,
+        name: student.name,
+        age: student.age,
+        permission: student.parent_permission,
+        user_type: "#{student.class}"
+      }
+      @person << student
     else
       print 'Specialization: '
       specialization = gets.chomp.strip
-      @person << Teacher.new(name, age, specialization)
+      teacher = Teacher.new(name, age, user_type, specialization)
+      @person << teacher
+      existing_persons = JSON.parse(File.read('./lib/persons.json')) if File.file?('./lib/persons.json')
+      existing_persons << {
+        id: teacher.id,
+        name: teacher.name,
+        age: teacher.age,
+        specialization: teacher.specialization,
+        user_type: "#{teacher.class}"
+      }
     end
+    File.write('./lib/persons.json', JSON.pretty_generate(existing_persons))
     puts 'Person created successfully'
   end
 
@@ -98,8 +130,8 @@ class App
   def person_index_val
     puts 'Select person from the following list by number'
     @person.each_with_index do |persons, index|
-      person_type = persons.instance_of?(Students) ? 'Student' : 'Teacher'
-      puts "#{index})[#{person_type}] Name: #{persons.name}, ID: #{persons.id}, Age: #{persons.age}"
+      #person_type = persons.instance_of?(Students) ? 'Student' : 'Teacher'
+      puts "#{index})[#{persons.user_type}] Name: #{persons.name}, ID: #{persons.id}, Age: #{persons.age}"
     end
 
     gets.chomp.to_i

@@ -1,0 +1,156 @@
+[
+  {
+    "id": 18,
+    "name": "felix",
+    "age": 23,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 707,
+    "name": "Pixie",
+    "age": 56,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 825,
+    "name": "tim",
+    "age": 23,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 862,
+    "name": "vickie",
+    "age": 34,
+    "specialization": "Eng",
+    "user_type": "Teacher"
+  },
+  {
+    "id": 941,
+    "name": "paul",
+    "age": 45,
+    "specialization": "hist",
+    "user_type": "Teacher"
+  },
+  {
+    "id": 637,
+    "name": "Phylis",
+    "age": 33,
+    "specialization": "Forex",
+    "user_type": "Teacher"
+  },
+  {
+    "id": 429,
+    "name": "maina",
+    "age": 23,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 299,
+    "name": "philip",
+    "age": 23,
+    "permission": true,
+    "user_type": "Student"
+  },
+  {
+    "id": 601,
+    "name": "kim",
+    "age": 45,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 532,
+    "name": 21,
+    "age": "jim",
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 668,
+    "name": "pinki",
+    "age": 36,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 692,
+    "name": "pot",
+    "age": 23,
+    "specialization": "hist",
+    "user_type": "Teacher"
+  },
+  {
+    "id": 59,
+    "name": "pau",
+    "age": 23,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 259,
+    "name": "kim",
+    "age": 12,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 395,
+    "name": "pok",
+    "age": 56,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 618,
+    "name": "lobby",
+    "age": 89,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 425,
+    "name": "Poska",
+    "age": 33,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 665,
+    "name": "Rob",
+    "age": 23,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 872,
+    "name": "Red",
+    "age": 23,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 236,
+    "name": "Tred",
+    "age": 34,
+    "specialization": "chem",
+    "user_type": "Teacher"
+  },
+  {
+    "id": 991,
+    "name": "wendy",
+    "age": 45,
+    "permission": false,
+    "user_type": "Student"
+  },
+  {
+    "id": 566,
+    "name": "Fiona",
+    "age": 34,
+    "permission": false,
+    "user_type": "Student"
+  }
+]
