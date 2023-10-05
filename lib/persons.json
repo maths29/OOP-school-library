@@ -40,5 +40,12 @@
     "age": 20,
     "permission": true,
     "user_type": "Student"
+  },
+  {
+    "id": 922,
+    "name": "wendy",
+    "age": 34,
+    "permission": true,
+    "user_type": "Student"
   }
 ]

@@ -11,8 +11,6 @@ class App
   def initialize
     load_books
     load_persons
-    @people = []
-    @rentals = []
   end
   def case_method(user_input)
     case user_input
@@ -155,17 +153,25 @@ class App
     end
     puts 'Rental created successfully'
   end
-  def get_rental_id(person_id)
-    person = @person.find { |borrowedb| borrowedb.id == person_id }
-    person ? person.rentals : []
+  def get_rentals_by_person_id(person_id)
+    rentals = []
+    if File.file?('./lib/rentals.json')
+      rental_data = JSON.parse(File.read('./lib/rentals.json'))
+      rentals = rental_data.select { |rental| rental['person_id'] == person_id }
+    end
+    rentals
   end
   def list_rentals
-    print 'ID of person : '
+    print 'ID of person: '
     id = gets.chomp.to_i
-    choose_person = get_rental_id(id)
-    puts 'Rentals: '
-    choose_person.each do |rental|
-      puts "Date: \"#{rental.date}\", Book: #{rental.book.title} by #{rental.book.author}"
+    rentals_for_person = get_rentals_by_person_id(id)
+    if rentals_for_person.empty?
+      puts 'No rentals found for the specified person ID.'
+    else
+      puts "Rentals for Person ID #{id}:"
+      rentals_for_person.each do |rental|
+        puts "Date: #{rental['date']}, Book: #{rental['book_title']} by #{rental['book_author']}"
+      end
     end
   end
 end
