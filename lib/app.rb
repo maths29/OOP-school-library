@@ -54,6 +54,7 @@ class App
     end
   end
   def list_person
+    load_persons
     @person.each_with_index do |person, index|
       puts "#{index} [#{person.user_type}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
@@ -78,12 +79,10 @@ class App
         permission: student.parent_permission,
         user_type: "#{student.class}"
       }
-      @person << student
     else
       print 'Specialization: '
       specialization = gets.chomp.strip
       teacher = Teacher.new(name, age, user_type, specialization)
-      @person << teacher
       existing_persons = JSON.parse(File.read('./lib/persons.json')) if File.file?('./lib/persons.json')
       existing_persons << {
         id: teacher.id,
