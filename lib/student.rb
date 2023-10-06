@@ -1,6 +1,6 @@
 require_relative 'person'
 class Student < Person
-  def initialize(name, age, user_type, parent_permission = true)
+  def initialize(name, age, user_type, parent_permission)
     super(age, name, user_type)
     @parent_permission = parent_permission
   end

@@ -1,4 +1,3 @@
-require_relative 'classroom'
 require_relative 'person'
 require_relative 'student'
 require_relative 'teacher'
@@ -34,9 +33,7 @@ class App
     if @books.empty?
       puts 'No Books Recorded'
     else
-      @books.each_with_index do |book, index|
-        puts "#{index} Title : #{book.title}, Author : #{book.author}"
-      end
+      @books.each_with_index { |book, index| puts "#{index} Title : #{book.title}, Author : #{book.author}" }
     end
   end
 
@@ -78,32 +75,28 @@ class App
     age = gets.chomp.strip.to_i
     print 'Name: '
     name = gets.chomp.strip
-    existing_persons = []
+    create_person_save(user_type, age, name)
+  end
+
+  def create_person_save(user_type, age, name)
+    existing_persons = File.file?('./lib/persons.json') ? JSON.parse(File.read('./lib/persons.json')) : []
     if user_type == 1
       print 'Has parent permission? [Y/N]: '
       parent_permission = gets.chomp.strip.upcase == 'Y'
-      student = Student.new(name, age, user_type, parent_permission)
-      existing_persons = JSON.parse(File.read('./lib/persons.json')) if File.file?('./lib/persons.json')
-      existing_persons << {
-        id: student.id,
-        name: student.name,
-        age: student.age,
-        permission: student.parent_permission,
-        user_type: student.class.to_s
-      }
+      person = Student.new(name, age, user_type, parent_permission)
     else
       print 'Specialization: '
       specialization = gets.chomp.strip
-      teacher = Teacher.new(name, age, user_type, specialization)
-      existing_persons = JSON.parse(File.read('./lib/persons.json')) if File.file?('./lib/persons.json')
-      existing_persons << {
-        id: teacher.id,
-        name: teacher.name,
-        age: teacher.age,
-        specialization: teacher.specialization,
-        user_type: teacher.class.to_s
-      }
+      person = Teacher.new(name, age, user_type, specialization)
     end
+    person_data = { id: person.id, name: person.name, age: person.age }
+    if user_type == 1
+      person_data[:permission] = person.parent_permission
+    else
+      person_data[:specialization] = person.specialization
+    end
+    person_data[:user_type] = person.class.to_s
+    existing_persons << person_data
     File.write('./lib/persons.json', JSON.pretty_generate(existing_persons))
     puts 'Person created successfully'
   end
@@ -115,10 +108,8 @@ class App
     author = gets.chomp.strip
     new_book = Book.new(title, author)
     @books << new_book
-    # Read existing data from the file if it exists
     existing_books = []
     existing_books = JSON.parse(File.read('./lib/books.json')) if File.file?('./lib/books.json')
-    # Append the new book data to the existing data
     existing_books << { title: new_book.title, author: new_book.author }
     # Write the combined data back to the file
     File.write('./lib/books.json', JSON.pretty_generate(existing_books))
@@ -156,12 +147,8 @@ class App
     existing_rentals = []
     existing_rentals = JSON.parse(File.read('./lib/rentals.json')) if File.file?('./lib/rentals.json')
     # Append the new rental data to the existing data
-    existing_rentals << {
-      date: rental.date,
-      person_id: rental.person.id,
-      book_title: rental.book.title,
-      book_author: rental.book.author
-    }
+    existing_rentals << { date: rental.date, person_id: rental.person.id, book_title: rental.book.title,
+                          book_author: rental.book.author }
     # Write the combined data back to the file
     File.write('./lib/rentals.json', JSON.pretty_generate(existing_rentals))
     puts 'Rental created successfully'
