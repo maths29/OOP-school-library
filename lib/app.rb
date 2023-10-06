@@ -75,20 +75,19 @@ class App
     age = gets.chomp.strip.to_i
     print 'Name: '
     name = gets.chomp.strip
-    create_person_save(user_type, age, name)
+    save_person(user_type, age, name)
   end
 
-  def create_person_save(user_type, age, name)
-    existing_persons = File.file?('./lib/persons.json') ? JSON.parse(File.read('./lib/persons.json')) : []
-    if user_type == 1
-      print 'Has parent permission? [Y/N]: '
-      parent_permission = gets.chomp.strip.upcase == 'Y'
-      person = Student.new(name, age, user_type, parent_permission)
-    else
-      print 'Specialization: '
-      specialization = gets.chomp.strip
-      person = Teacher.new(name, age, user_type, specialization)
-    end
+  def save_person(user_type, age, name)
+    person_path = './lib/persons.json'
+    existing_persons = File.file?(person_path) && !File.empty?(person_path) ? JSON.parse(File.read(person_path)) : []
+    person = if user_type == 1
+               print 'Has parent permission? [Y/N]: '
+               Student.new(name, age, user_type, gets.chomp.strip.upcase == 'Y')
+             else
+               print 'Specialization: '
+               Teacher.new(name, age, user_type, gets.chomp.strip)
+             end
     person_data = { id: person.id, name: person.name, age: person.age }
     if user_type == 1
       person_data[:permission] = person.parent_permission
@@ -97,7 +96,7 @@ class App
     end
     person_data[:user_type] = person.class.to_s
     existing_persons << person_data
-    File.write('./lib/persons.json', JSON.pretty_generate(existing_persons))
+    File.write(person_path, JSON.pretty_generate(existing_persons))
     puts 'Person created successfully'
   end
 
@@ -118,6 +117,7 @@ class App
 
   def person_index_val
     puts 'Select person from the following list by number'
+    load_persons
     @person.each_with_index do |persons, index|
       puts "#{index})[#{persons.user_type}] Name: #{persons.name}, ID: #{persons.id}, Age: #{persons.age}"
     end
