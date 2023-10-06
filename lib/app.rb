@@ -12,6 +12,7 @@ class App
     load_books
     load_persons
   end
+
   def case_method(user_input)
     case user_input
     when 1
@@ -28,35 +29,48 @@ class App
       list_rentals
     end
   end
+
   def list_books
-    @books.each_with_index do |book, index|
-      puts "#{index} Title : #{book.title}, Author : #{book.author}"
+    if @books.empty?
+      puts 'No Books Recorded'
+    else
+      @books.each_with_index do |book, index|
+        puts "#{index} Title : #{book.title}, Author : #{book.author}"
+      end
     end
   end
+
   def load_books
     @books = []
-    if File.file?('./lib/books.json')
-      book_data = JSON.parse(File.read('./lib/books.json'))
-      book_data.each do |book_info|
-        @books << Book.new(book_info['title'], book_info['author'])
-      end
+    return unless File.file?('./lib/books.json') && !File.empty?('./lib/books.json')
+
+    book_data = JSON.parse(File.read('./lib/books.json'))
+    book_data.each do |book_info|
+      @books << Book.new(book_info['title'], book_info['author'])
     end
   end
+
   def load_persons
     @person = []
-    if File.file?('./lib/persons.json')
-      person_data = JSON.parse(File.read('./lib/persons.json'))
-      person_data.each do |person_info|
-        @person << Person.new(person_info['age'], person_info['name'], person_info['user_type'])
+    return unless File.file?('./lib/persons.json') && !File.empty?('./lib/persons.json')
+
+    person_data = JSON.parse(File.read('./lib/persons.json'))
+    person_data.each do |person_info|
+      @person << Person.new(person_info['age'], person_info['name'], person_info['user_type'])
+    end
+  end
+
+  def list_person
+    load_persons
+    if @person.empty?
+      puts 'No new persons recorded'
+    else
+      @person.each_with_index do |person, index|
+        puts "#{index} [#{person.user_type}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
       end
     end
   end
-  def list_person
-    load_persons
-    @person.each_with_index do |person, index|
-      puts "#{index} [#{person.user_type}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
-    end
-  end
+
   def create_person
     print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
     user_type = gets.chomp.strip.to_i
@@ -75,7 +89,7 @@ class App
         name: student.name,
         age: student.age,
         permission: student.parent_permission,
-        user_type: "#{student.class}"
+        user_type: student.class.to_s
       }
     else
       print 'Specialization: '
@@ -87,12 +101,13 @@ class App
         name: teacher.name,
         age: teacher.age,
         specialization: teacher.specialization,
-        user_type: "#{teacher.class}"
+        user_type: teacher.class.to_s
       }
     end
     File.write('./lib/persons.json', JSON.pretty_generate(existing_persons))
     puts 'Person created successfully'
   end
+
   def add_book
     print 'Title: '
     title = gets.chomp.strip
@@ -109,14 +124,15 @@ class App
     File.write('./lib/books.json', JSON.pretty_generate(existing_books))
     puts 'Book created successfully'
   end
+
   def person_index_val
     puts 'Select person from the following list by number'
     @person.each_with_index do |persons, index|
-      #person_type = persons.instance_of?(Students) ? 'Student' : 'Teacher'
       puts "#{index})[#{persons.user_type}] Name: #{persons.name}, ID: #{persons.id}, Age: #{persons.age}"
     end
     gets.chomp.to_i
   end
+
   def accept_book_index
     puts 'Select a book from the following list by number'
     @books.each_with_index do |book, index|
@@ -129,6 +145,7 @@ class App
     end
     book_index
   end
+
   def create_rental
     book_index = accept_book_index
     person_index = person_index_val
@@ -137,9 +154,7 @@ class App
     rental = Rental.new(date, @person[person_index], @books[book_index])
     # Read existing data from the file if it exists
     existing_rentals = []
-    if File.file?('./lib/rentals.json')
-      existing_rentals = JSON.parse(File.read('./lib/rentals.json'))
-    end
+    existing_rentals = JSON.parse(File.read('./lib/rentals.json')) if File.file?('./lib/rentals.json')
     # Append the new rental data to the existing data
     existing_rentals << {
       date: rental.date,
@@ -148,19 +163,19 @@ class App
       book_author: rental.book.author
     }
     # Write the combined data back to the file
-    File.open('./lib/rentals.json', 'w') do |file|
-      file.write(JSON.pretty_generate(existing_rentals))
-    end
+    File.write('./lib/rentals.json', JSON.pretty_generate(existing_rentals))
     puts 'Rental created successfully'
   end
+
   def get_rentals_by_person_id(person_id)
     rentals = []
-    if File.file?('./lib/rentals.json')
+    if File.file?('./lib/rentals.json') && !File.empty?('./lib/rentals.json')
       rental_data = JSON.parse(File.read('./lib/rentals.json'))
       rentals = rental_data.select { |rental| rental['person_id'] == person_id }
     end
     rentals
   end
+
   def list_rentals
     print 'ID of person: '
     id = gets.chomp.to_i
