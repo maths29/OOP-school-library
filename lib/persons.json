@@ -1,0 +1,9 @@
+[
+  {
+    "id": 419,
+    "name": "POP",
+    "age": 34,
+    "permission": true,
+    "user_type": "Student"
+  }
+]

@@ -1,3 +1,4 @@
+require_relative 'book'
 # Add class rental
 class Rental
   def initialize(date, person, book)
