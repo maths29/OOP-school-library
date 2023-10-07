@@ -5,11 +5,7 @@ class Rental
     @date = date
     @book = book
     @person = person
-    # Modify the constructor of Rental to set Book and Person
-    book.rentals << self
-    person.rentals << self
   end
 
-  attr_accessor :date
-  attr_reader :book, :person
+  attr_accessor :date, :book, :person
 end

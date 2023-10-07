@@ -1,0 +1,8 @@
+require_relative '../lib/person'
+require_relative '../lib/teacher'
+require_relative '../lib/student'
+require_relative '../lib/classroom'
+require_relative '../lib/book'
+require_relative '../lib/rental'
+require_relative '../lib/capitalize'
+require_relative '../lib/trimcase'

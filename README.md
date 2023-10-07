@@ -40,7 +40,8 @@ In this project, I started building a school library app. In this initial step, 
 
 - **Intro to Classes**
 - **Create the person class, student and teacher**
-
+- **Unit Tests**
+- **Basic UI**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
